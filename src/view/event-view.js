@@ -59,28 +59,33 @@ function createEventTemplate(point, destinationArray, offersArray) {
 }
 
 export default class EventView {
+  #point = null;
+  #destinationArray = null;
+  #offersArray = null;
+  #element = null;
+
   constructor(point, destinationArray, offersArray) {
-    this.point = point;
-    this.destinationArray = destinationArray;
-    this.offersArray = offersArray;
+    this.#point = point;
+    this.#destinationArray = destinationArray;
+    this.#offersArray = offersArray;
   }
 
-  getTemplate() {
+  get template() {
     return createEventTemplate(
-      this.point,
-      this.destinationArray,
-      this.offersArray
+      this.#point,
+      this.#destinationArray,
+      this.#offersArray
     );
   }
 
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
     }
-    return this.element;
+    return this.#element;
   }
 
   removeElement() {
-    this.element = null;
+    this.#element = null;
   }
 }

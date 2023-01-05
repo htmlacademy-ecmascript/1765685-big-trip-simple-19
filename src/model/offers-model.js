@@ -7,6 +7,6 @@ TYPES.forEach((type)=>{
 });
 
 export default class OffersModel {
-  offers = offersArray;
-  getOffers() {return this.offers;}
+  #offers = offersArray;
+  get offers() {return this.#offers;}
 }
