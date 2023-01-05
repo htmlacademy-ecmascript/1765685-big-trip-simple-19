@@ -3,7 +3,7 @@ import { CITIES, DESCRIPTIONS,} from '../const.js';
 
 const getPicturesWithDescription = () => ({
   src: `http://picsum.photos/248/152?r=${getRandomInteger(0, 10)}`,
-  descript: getRandomElementOfArray(DESCRIPTIONS),
+  description: getRandomElementOfArray(DESCRIPTIONS),
 });
 
 const getLinksToImage = () =>

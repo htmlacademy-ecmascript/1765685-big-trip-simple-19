@@ -14,7 +14,7 @@ function createNewEventTemplate(point, destinationArray, offersArray) {
 
   const getPhoto = (linksToImage) =>
     `${linksToImage.map((linkToImage) =>
-      `<img class="event__photo" src=${linkToImage.src} alt="${linkToImage.descript}">`).join('') }`;
+      `<img class="event__photo" src=${linkToImage.src} alt="${linkToImage.description}">`).join('') }`;
 
   const getOffersTemplate = (offers) =>
     `${offers
@@ -150,26 +150,31 @@ function createNewEventTemplate(point, destinationArray, offersArray) {
 }
 
 export default class NewEventView {
+  #point = null;
+  #destinationArray = null;
+  #offersArray = null;
+  #element = null;
+
   constructor(point, destinationArray, offersArray) {
-    this.point = point;
-    this.destinationArray = destinationArray;
-    this.offersArray = offersArray;
+    this.#point = point;
+    this.#destinationArray = destinationArray;
+    this.#offersArray = offersArray;
   }
 
-  getTemplate() {
-    return createNewEventTemplate(this.point,
-      this.destinationArray,
-      this.offersArray);
+  get template() {
+    return createNewEventTemplate(this.#point,
+      this.#destinationArray,
+      this.#offersArray);
   }
 
-  getElement() {
-    if(!this.element) {
-      this.element = createElement(this.getTemplate());
+  get element() {
+    if(!this.#element) {
+      this.#element = createElement(this.template);
     }
-    return this.element;
+    return this.#element;
   }
 
   removeElement() {
-    this.element = null;
+    this.#element = null;
   }
 }
