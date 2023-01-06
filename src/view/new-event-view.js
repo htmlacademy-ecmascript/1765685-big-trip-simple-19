@@ -1,5 +1,5 @@
-import { createElement } from '../render';
 import dayjs from 'dayjs';
+import AbstractView from '../framework/view/abstract-view';
 
 function createNewEventTemplate(point, destinationArray, offersArray) {
   const { type, destinationId, dateFrom, dateTo } =
@@ -149,13 +149,13 @@ function createNewEventTemplate(point, destinationArray, offersArray) {
       </li>`);
 }
 
-export default class NewEventView {
+export default class NewEventView extends AbstractView {
   #point = null;
   #destinationArray = null;
   #offersArray = null;
-  #element = null;
 
   constructor(point, destinationArray, offersArray) {
+    super();
     this.#point = point;
     this.#destinationArray = destinationArray;
     this.#offersArray = offersArray;
@@ -165,16 +165,5 @@ export default class NewEventView {
     return createNewEventTemplate(this.#point,
       this.#destinationArray,
       this.#offersArray);
-  }
-
-  get element() {
-    if(!this.#element) {
-      this.#element = createElement(this.template);
-    }
-    return this.#element;
-  }
-
-  removeElement() {
-    this.#element = null;
   }
 }

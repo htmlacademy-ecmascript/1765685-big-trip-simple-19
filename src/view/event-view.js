@@ -1,5 +1,5 @@
-import { createElement } from '../render';
 import dayjs from 'dayjs';
+import AbstractView from '../framework/view/abstract-view';
 
 function createEventTemplate(point, destinationArray, offersArray) {
   const { basePrice, type, destinationId, dateFrom, dateTo } =
@@ -58,16 +58,19 @@ function createEventTemplate(point, destinationArray, offersArray) {
 </li>`;
 }
 
-export default class EventView {
+export default class EventView extends AbstractView {
   #point = null;
   #destinationArray = null;
   #offersArray = null;
-  #element = null;
+  #handleEditClick = null;
 
-  constructor(point, destinationArray, offersArray) {
+  constructor(point, destinationArray, offersArray, onEditClick) {
+    super();
     this.#point = point;
     this.#destinationArray = destinationArray;
     this.#offersArray = offersArray;
+    this.#handleEditClick = onEditClick;
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#editClickHandler);
   }
 
   get template() {
@@ -78,14 +81,8 @@ export default class EventView {
     );
   }
 
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-    return this.#element;
-  }
-
-  removeElement() {
-    this.#element = null;
-  }
+  #editClickHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleEditClick();
+  };
 }
