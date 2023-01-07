@@ -1,23 +1,24 @@
-import { createElement } from '../render';
 import dayjs from 'dayjs';
+import AbstractView from '../framework/view/abstract-view';
 
 function createEditEventTemplate(point, destinationArray, offersArray) {
-  const { basePrice, type, destinationId, dateFrom, dateTo } =
-    point;
+  const { basePrice, type, destinationId, dateFrom, dateTo } = point;
   const pointTypeDestination = destinationArray.find(
     (destination) => destination.id === destinationId
   );
 
   const pointTypeOffer = offersArray.find((offer) => offer.type === point.type);
 
-
-  const isChecked = (offer) => point.offers.includes(offer.i) ? 'checked' : '';
+  const isChecked = (offer) =>
+    point.offers.includes(offer.i) ? 'checked' : '';
 
   const getOffersTemplate = (offers) =>
     `${offers
       .map(
         (offer) => ` <div class="event__offer-selector">
-      <input class="event__offer-checkbox  visually-hidden" id="event-offer-luggage-1" type="checkbox" name="event-offer-luggage" ${isChecked(offer)}>
+      <input class="event__offer-checkbox  visually-hidden" id="event-offer-luggage-1" type="checkbox" name="event-offer-luggage" ${isChecked(
+    offer
+  )}>
       <label class="event__offer-label" for="event-offer-luggage-1">
         <span class="event__offer-title">${offer.title}</span>
         &plus;&euro;&nbsp;
@@ -94,7 +95,9 @@ function createEditEventTemplate(point, destinationArray, offersArray) {
       <label class="event__label  event__type-output" for="event-destination-1">
         ${type}
       </label>
-      <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${pointTypeDestination.name}" list="destination-list-1">
+      <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${
+  pointTypeDestination.name
+}" list="destination-list-1">
       <datalist id="destination-list-1">
         <option value="Amsterdam"></option>
         <option value="Geneva"></option>
@@ -104,10 +107,14 @@ function createEditEventTemplate(point, destinationArray, offersArray) {
 
     <div class="event__field-group  event__field-group--time">
       <label class="visually-hidden" for="event-start-time-1">From</label>
-      <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${dayjs(dateFrom).format('DD/MM/YY HH:mm')}">
+      <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${dayjs(
+    dateFrom
+  ).format('DD/MM/YY HH:mm')}">
       &mdash;
       <label class="visually-hidden" for="event-end-time-1">To</label>
-      <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${dayjs(dateTo).format('DD/MM/YY HH:mm')}">
+      <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${dayjs(
+    dateTo
+  ).format('DD/MM/YY HH:mm')}">
     </div>
 
     <div class="event__field-group  event__field-group--price">
@@ -135,7 +142,9 @@ function createEditEventTemplate(point, destinationArray, offersArray) {
 
     <section class="event__section  event__section--destination">
       <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-      <p class="event__destination-description">${pointTypeDestination.description}</p>
+      <p class="event__destination-description">${
+  pointTypeDestination.description
+}</p>
     </section>
   </section>
 </form>
@@ -143,32 +152,37 @@ function createEditEventTemplate(point, destinationArray, offersArray) {
 `;
 }
 
-export default class EditEventView {
+export default class EditEventView extends AbstractView {
   #point = null;
   #destinationArray = null;
   #offersArray = null;
-  #element = null;
+  #handleEditClick = null;
 
-  constructor(point, destinationArray, offersArray) {
+  constructor(point, destinationArray, offersArray, onEditClick) {
+    super();
     this.#point = point;
     this.#destinationArray = destinationArray;
     this.#offersArray = offersArray;
+    this.#handleEditClick = onEditClick;
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#editClickHandler);
+    this.element.addEventListener('submit', this.#editSubmitClick);
   }
 
   get template() {
-    return createEditEventTemplate(this.#point,
+    return createEditEventTemplate(
+      this.#point,
       this.#destinationArray,
-      this.#offersArray);
+      this.#offersArray
+    );
   }
 
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-    return this.#element;
-  }
+  #editClickHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleEditClick();
+  };
 
-  removeElement() {
-    this.#element = null;
-  }
+  #editSubmitClick = (evt) => {
+    evt.preventDefault();
+    this.#handleEditClick();
+  };
 }

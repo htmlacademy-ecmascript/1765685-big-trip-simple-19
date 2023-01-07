@@ -1,4 +1,4 @@
-import { render } from './render.js';
+import { render } from './framework/render.js';
 import FilterEventsView from './view/filter-events-view.js';
 import EventsPresenter from './presenter/events-presenter.js';
 import DestinationsModel from './model/destinations-model.js';
