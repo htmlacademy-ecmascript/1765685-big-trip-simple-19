@@ -58,4 +58,18 @@ const COUNT = {
   POINTS: 10,
 };
 
-export { CITIES, DESCRIPTIONS, TYPES, TITLES, PRICE, PRICE_OFFER, COUNT };
+const FilterType = {
+  EVERYTHING: 'everything',
+  FUTURE: 'future',
+};
+
+export {
+  CITIES,
+  DESCRIPTIONS,
+  TYPES,
+  TITLES,
+  PRICE,
+  PRICE_OFFER,
+  COUNT,
+  FilterType,
+};
