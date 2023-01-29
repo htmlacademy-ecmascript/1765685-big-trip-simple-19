@@ -1,5 +1,6 @@
 import { getRandomInteger, getRandomElementOfArray } from '../utils.js';
 import dayjs from 'dayjs';
+import { nanoid } from 'nanoid';
 import { TYPES, PRICE, COUNT } from '../const.js';
 
 const generateEnd = (start, type) => {
@@ -78,6 +79,7 @@ const dateFromTo = {
 };
 
 const generatePoint = (randomType = getRandomElementOfArray(TYPES)) => ({
+  id: nanoid(),
   basePrice: getRandomInteger(PRICE.MIN, PRICE.MAX),
   type: randomType,
   destinationId: getRandomInteger(1, COUNT.DESTINATIONS),
